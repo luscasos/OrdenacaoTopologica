@@ -17,7 +17,6 @@
 int main(void) {
 
 
-	int i,j;
 	grafo_t *g;
 
 	g = cria_grafo(VERTICES);
@@ -39,23 +38,10 @@ int main(void) {
     liga_vertices(g,10,12,8);
 
     vertice_set_id(g);
-    printf("BATATAO\n");
 
 
-	/* Imprimi matriz */
-	printf("     ");
-	for(i=0; i < VERTICES; i++)
-        printf("%2.d ",i+1);
-        printf("\n");
-    for(i=0; i < VERTICES; i++)
-        printf("----");
-        printf("\n");
-	for (i=0; i < VERTICES; i++){
-            printf("%2d | ",i+1);
-		for (j=0; j < VERTICES; j++)
-			printf("%2d ", adjacente(g,i,j));
-			printf("\n");
-	}
+    imprime_matriz(g);
+
     exportar_grafo_dot("grafo.dot",g);
 	bfs(g,3);
 

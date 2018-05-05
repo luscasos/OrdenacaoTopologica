@@ -30,5 +30,6 @@ void bfs(grafo_t* grafo,int inicial);
 void exportar_grafo_dot(const char *filename, grafo_t *grafo);
 void vertice_set_id(grafo_t *g);
 void exportar_bfs(const char *filename, grafo_t *grafo);
+void imprime_matriz(grafo_t *grafo);
 
 #endif /* GRAFO_H_ */

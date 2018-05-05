@@ -321,3 +321,21 @@ int i;
     fprintf(file, "}\n");
     fclose(file);
 }
+
+void imprime_matriz(grafo_t *grafo)
+{
+    int i,j;
+    	printf("     ");
+	for(i=0; i < grafo->n_vertices; i++)
+        printf("%2.d ",i+1);
+        printf("\n");
+    for(i=0; i < grafo->n_vertices; i++)
+        printf("----");
+        printf("\n");
+	for (i=0; i < grafo->n_vertices; i++){
+            printf("%2d | ",i+1);
+		for (j=0; j < grafo->n_vertices; j++)
+			printf("%2d ", adjacente(grafo,i,j));
+			printf("\n");
+	}
+}
