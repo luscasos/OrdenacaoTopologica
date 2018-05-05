@@ -20,7 +20,7 @@ int main(void) {
 
 	g = cria_grafo(VERTICES);
 
-
+    printf("OK\n");
     liga_vertices(g,1,2,7);
     liga_vertices(g,1,3,9);
     liga_vertices(g,1,6,14);
