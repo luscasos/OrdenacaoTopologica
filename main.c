@@ -40,7 +40,7 @@ int main(void) {
 
     vertice_set_id(g);
     printf("BATATAO\n");
-    printf("Sem batatão\n");
+
 
 	/* Imprimi matriz */
 	printf("     ");
