@@ -195,12 +195,12 @@ void bfs(grafo_t* grafo,int inicial)
 
         for (i=0; i<=grafo->n_vertices; i++)
         {
-
            // printf("adjacentes: %d\n",grafo->matriz_adj[inicial][i].adj);
             if (grafo->matriz_adj[inicial][i].adj)
             {
                     if ( grafo->vertices[i].distancia == -1){
                         if (grafo->vertices[i].pai==0){
+                            grafo->vertices[i].distancia = grafo->matriz_adj[inicial][i].peso;
                             grafo->vertices[i].pai = inicial;
                             enqueue((void*)i,fila);
                           //  printf("Enqueue: %d\n",i+1);
@@ -208,10 +208,7 @@ void bfs(grafo_t* grafo,int inicial)
                     }
                     grafo->vertices[inicial].distancia = 1;
             }
-
         }
-
-
     }
 	libera_fila(fila);
 
@@ -307,14 +304,14 @@ int i;
     fprintf(file, "graph {\n");
     for (i=0; i < grafo->n_vertices; i++)
     {
-        if (grafo->matriz_adj[i][(int)grafo->vertices[i].pai-1].peso>=0)
+        if (grafo->vertices[i].pai!=0)
         {
             //printf("%d\n", grafo->vertices[i].id);
            // printf("%d\n",grafo->vertices[i].pai);
             fprintf(file, "\t%d -- %d [label = %d];\n",
                     grafo->vertices[i].id,
-                    grafo->vertices[grafo->vertices[i].pai].id,
-                    grafo->matriz_adj[i][grafo->vertices[i].pai-1].peso);
+                    grafo->vertices[i].pai+1,
+                    grafo->matriz_adj[i][grafo->vertices[i].pai].peso);
         }
 
     }
@@ -322,10 +319,10 @@ int i;
     fclose(file);
 }
 
-void imprime_matriz(grafo_t *grafo)
+void imprime_matriz(grafo_t* grafo)
 {
     int i,j;
-    	printf("     ");
+          	printf("     ");
 	for(i=0; i < grafo->n_vertices; i++)
         printf("%2.d ",i+1);
         printf("\n");

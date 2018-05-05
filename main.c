@@ -16,7 +16,6 @@
 
 int main(void) {
 
-
 	grafo_t *g;
 
 	g = cria_grafo(VERTICES);
@@ -39,7 +38,6 @@ int main(void) {
 
     vertice_set_id(g);
 
-
     imprime_matriz(g);
 
     exportar_grafo_dot("grafo.dot",g);
@@ -48,8 +46,6 @@ int main(void) {
 	exportar_bfs("grafobfs.dot",g);
 
 	dfs(g,3);
-
-
 
 	libera_grafo(g);
 

@@ -13,7 +13,7 @@
 
 1467832889 c:\users\lucas\documents\github\ordenacaotropologico\fila\fila.h
 
-1525525836 source:c:\users\lucas\documents\github\ordenacaotropologico\grafo\grafo.c
+1525533688 source:c:\users\lucas\documents\github\ordenacaotropologico\grafo\grafo.c
 	<stdlib.h>
 	<stdio.h>
 	<string.h>
@@ -43,7 +43,7 @@
 	"../lista_enc/no.h"
 	"pilha.h"
 
-1525525910 source:c:\users\lucas\documents\github\ordenacaotropologico\main.c
+1525533868 source:c:\users\lucas\documents\github\ordenacaotropologico\main.c
 	<stdio.h>
 	<stdlib.h>
 	"./grafo/grafo.h"
