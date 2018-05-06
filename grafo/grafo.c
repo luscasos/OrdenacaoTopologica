@@ -15,11 +15,9 @@
 
 struct vertices
 {
-    int id;
-    int pai;
-    int distancia;
-    int visitado;
-
+    int etapa;
+    char *processo;
+    int *dependencias;
 };
 
 struct arestas
@@ -37,54 +35,63 @@ struct grafos
     aresta_t **matriz_adj;	/* Matriz de adjacencia */
 };
 
-struct dado{
-    int etapa;
-    char* processo;
-    int *dependencias;
-};
 
-void ler_arquivo(char* arquivo)
+grafo_t* ler_arquivo(char* arquivo)
 {
     char buffer_processo[50];
-    dado_t* D;
+    char ch;
+    vertice_t* V = NULL;
+    grafo_t* G = NULL;
     FILE *fp = fopen(arquivo,"r");
-    int ret, tam, tam_dep;
-    int dep[4];
+    int ret, tam, tam_dep, tam_ar;
+    int dep[6];
     if(fp == NULL){
         perror("Erro ao abrir o arquivo");
         exit(EXIT_FAILURE);
     }
+    while(!feof(fp))
+    {
+        ch = fgetc(fp);
+        if(ch == '\n')
+            tam_ar++;
+    printf("tam_ar");
+    G = cria_grafo(tam_ar);
+    fseek(fp, 0, SEEK_SET);
     while(1)
     {
-        D=alocastruct();
-        ret = fscanf(fp,"%d, %50[^,],%d", &D->etapa,buffer_processo, dep);
+        V=cria_vertice();
+        ret = fscanf(fp,"%d, %50[^,],%d", &V->etapa,buffer_processo, dep);
         if (ret!=3)
             break;
         tam = strlen(buffer_processo);
         tam_dep = sizeof(dep);
-        alocaprocesso(D,tam);
-        copia_dep(&D, tam_dep, dep);
-        strcpy(D->processo,buffer_processo );
+        alocaprocesso(V,tam);
+        copia_dep(&V, tam_dep, dep);
+        strcpy(V->processo,buffer_processo );
     }
+    return G;
 }
 
-dado_t *alocastruct(void)
+vertice_t *cria_vertice(void)
 {
-    	dado_t *x = malloc(sizeof(dado_t));
+    	vertice_t *x = malloc(sizeof(vertice_t));
+    	x->etapa = 0;
+    	x->processo = NULL;
+    	x->dependencias = NULL;
     	return x;
 }
 
-void alocaprocesso(dado_t* D,int tamanho)
+void alocaprocesso(vertice_t* V,int tamanho)
 {
-	D->processo = malloc(tamanho+1);
+	V->processo = malloc(tamanho+1);
 }
 
-void aloca_dep(dado_t **D, int tamanho, int *dep)
+void copia_dep(vertice_t **V, int tamanho, int *dep)
 {
     int i;
-    (*D)->dependencias = malloc(tamanho+1);
+    (*V)->dependencias = malloc(tamanho+1);
     for(i=0;i<tamanho; i++){
-        (*D)->dependencias[i] = dep[i];
+        (*V)->dependencias[i] = dep[i];
     }
 
 }
@@ -143,7 +150,6 @@ void liga_vertices(grafo_t*grafo,int fonte, int destino,int distancia)
     destino--;
     aresta_t aresta;
     aresta.adj=TRUE;
-    aresta.peso=distancia;
     grafo->matriz_adj[fonte][destino]=aresta ;
     grafo->matriz_adj[destino][fonte]=aresta ;
 
@@ -185,7 +191,7 @@ int cria_adjacencia(grafo_t *g, int u, int v)
     return TRUE;
 }
 
-int rem_adjacencia(grafo_t *g, int u, int v)
+/*int rem_adjacencia(grafo_t *g, int u, int v)
 {
 
     if (g == NULL)
@@ -199,9 +205,9 @@ int rem_adjacencia(grafo_t *g, int u, int v)
     g->matriz_adj[u][v].adj = FALSE;
 
     return TRUE;
-}
+}*/
 
-int adjacente(grafo_t *g, int u, int v)
+/*int adjacente(grafo_t *g, int u, int v)
 {
 
     if (u > MAX_VERTICES || v > MAX_VERTICES)
@@ -209,17 +215,9 @@ int adjacente(grafo_t *g, int u, int v)
               //  printf("\n[%d][%d]\n",u,v);
     return ((g->matriz_adj[u][v].adj));
 }
+*/
 
-int peso_distancia(grafo_t *g, int u, int v)
-{
-
-    if (u > MAX_VERTICES || v > MAX_VERTICES)
-        return FALSE;
-
-    return ((g->matriz_adj[u][v].peso));
-}
-
-void bfs(grafo_t* grafo,int inicial)
+/*void bfs(grafo_t* grafo,int inicial)
 {
     inicial--;
     int i;
@@ -296,7 +294,8 @@ void dfs(grafo_t* grafo,int inicial)
 
     libera_pilha(pilha);
 }
-
+*/
+/*
 void exportar_grafo_dot(const char *filename, grafo_t *grafo) {
     #ifdef DEBUG
         printf("\nexporta grafo:");
@@ -334,7 +333,8 @@ void exportar_grafo_dot(const char *filename, grafo_t *grafo) {
     fprintf(file, "}\n");
     fclose(file);
 }
-
+*/
+/*
 void vertice_set_id(grafo_t *g)
 {
     int i;
@@ -372,6 +372,7 @@ int i;
 
 void imprime_matriz(grafo_t* grafo)
 {
+
     int i,j;
           	printf("     ");
 	for(i=0; i < grafo->n_vertices; i++)
@@ -387,3 +388,4 @@ void imprime_matriz(grafo_t* grafo)
 			printf("\n");
 	}
 }
+*/

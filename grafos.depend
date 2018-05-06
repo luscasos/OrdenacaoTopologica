@@ -82,10 +82,18 @@
 
 1525549922 c:\users\rafae\onedrive\documents\github\ordenacaotropologica\pilha\pilha.h
 
-1525550528 source:c:\users\rafae\onedrive\documents\github\ordenacaotropologica\main.c
+1525573141 source:c:\users\rafae\onedrive\documents\github\ordenacaotropologica\main.c
 	<stdio.h>
 	<stdlib.h>
 	"./grafo/grafo.h"
 
-1525569866 c:\users\rafae\onedrive\documents\github\ordenacaotropologica\grafo\grafo.h
+1525573171 c:\users\rafae\onedrive\documents\github\ordenacaotropologica\grafo\grafo.h
+
+1525571385 source:c:\users\rafae\onedrive\documents\github\ordenacaotropologica\grafo\grafo.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"../fila/fila.h"
+	"../pilha/pilha.h"
+	"grafo.h"
 
