@@ -1,0 +1,14 @@
+id, titulo , dependencias
+1, estamparia,
+2, estruturacao, 1
+3, pintura, 2
+4, cabeamento, 3
+5, remocao das portas, 4
+6, instalar macaneta , 5
+7, instalar vidro, 6
+8, instalar vedacoes, 7, 10
+9, instalar retrovisores, 5
+10, intalar fiacao, 9
+11, instalar parabrisas traseiro, 3
+12, instalar parabrisas, 3
+13, instalar eixos, 4
