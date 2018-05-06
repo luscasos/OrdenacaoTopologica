@@ -39,9 +39,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="grafo/grafo.h" />
-		<Unit filename="grafo/vertice.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="grafo/vertice.h" />
 		<Unit filename="lista_enc/lista_enc.c">
 			<Option compilerVar="CC" />

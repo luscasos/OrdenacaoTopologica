@@ -15,15 +15,14 @@
 
 struct vertices
 {
-    int etapa;
-    char *processo;
-    int *dependencias;
+    int id;
+    int n_dependencias;
+    char *titulo;
 };
 
 struct arestas
 {
-    int adj;
-    int peso;
+    int dependencia;
     int exported;
 
 };
@@ -32,69 +31,9 @@ struct grafos
 {
     int n_vertices;
     vertice_t *vertices;
-    aresta_t **matriz_adj;	/* Matriz de adjacencia */
+    aresta_t **matriz_adj;
 };
 
-
-grafo_t* ler_arquivo(char* arquivo)
-{
-    char buffer_processo[50];
-    char ch;
-    vertice_t* V = NULL;
-    grafo_t* G = NULL;
-    FILE *fp = fopen(arquivo,"r");
-    int ret, tam, tam_dep, tam_ar;
-    int dep[6];
-    if(fp == NULL){
-        perror("Erro ao abrir o arquivo");
-        exit(EXIT_FAILURE);
-    }
-    while(!feof(fp))
-    {
-        ch = fgetc(fp);
-        if(ch == '\n')
-            tam_ar++;
-    printf("tam_ar");
-    G = cria_grafo(tam_ar);
-    fseek(fp, 0, SEEK_SET);
-    while(1)
-    {
-        V=cria_vertice();
-        ret = fscanf(fp,"%d, %50[^,],%d", &V->etapa,buffer_processo, dep);
-        if (ret!=3)
-            break;
-        tam = strlen(buffer_processo);
-        tam_dep = sizeof(dep);
-        alocaprocesso(V,tam);
-        copia_dep(&V, tam_dep, dep);
-        strcpy(V->processo,buffer_processo );
-    }
-    return G;
-}}
-
-vertice_t *cria_vertice(void)
-{
-    	vertice_t *x = malloc(sizeof(vertice_t));
-    	x->etapa = 0;
-    	x->processo = NULL;
-    	x->dependencias = NULL;
-    	return x;
-}
-
-void alocaprocesso(vertice_t* V,int tamanho)
-{
-	V->processo = malloc(tamanho+1);
-}
-
-void copia_dep(vertice_t **V, int tamanho, int *dep)
-{
-    int i;
-    (*V)->dependencias = malloc(tamanho+1);
-    for(i=0;i<tamanho; i++){
-        (*V)->dependencias[i] = dep[i];
-    }
-
-}
 
 grafo_t *cria_grafo(int vertices)
 {
@@ -143,18 +82,50 @@ grafo_t *cria_grafo(int vertices)
     return g;
 }
 
-void liga_vertices(grafo_t*grafo,int fonte, int destino,int distancia)
+grafo_t* Ler_arq(void)
 {
-
-    fonte--;
-    destino--;
+    int i=0,id,dep,n,t;
+    grafo_t*g;
     aresta_t aresta;
-    aresta.adj=TRUE;
-    grafo->matriz_adj[fonte][destino]=aresta ;
-    grafo->matriz_adj[destino][fonte]=aresta ;
-
-
+    aresta.dependencia=1;
+    char buffer[128];
+    FILE *fp;
+    fp = fopen ("montagemcarro.txt", "r");
+    if (fp == NULL)
+    {
+        printf ("Erro ao abrir o arquivo.\n");
+        exit(1);
+    }
+    while ((fgets(buffer,128,fp))!=NULL)   //conta linha
+        i++;
+    rewind(fp);
+   // printf("%d\n\n",i);
+    g=cria_grafo(i-1);
+    fgets(buffer,128,fp);
+    while(!feof(fp))
+    {
+        n=0;
+        fscanf(fp,"%d, %[^,]",&id,buffer);
+        t=strlen(buffer);
+        cria_titulo(g,id,t);
+        strcpy(g->vertices[id].titulo,buffer);
+        //printf("%d, %s\t",id,buffer);
+            while(fscanf(fp,",%d",&dep)==1)
+            {
+                //printf("%d\t",dep);
+                g->matriz_adj[id][dep]=aresta;      // cria dependencia entre id e dep
+                n++;
+            }
+            fscanf(fp,"%*[^\n]");
+            //printf("\n");
+        g->vertices[id].n_dependencias=n;
+        g->vertices[id].id=id;
+    }
+    fclose(fp);
+    return g;
 }
+
+
 
 void libera_grafo (grafo_t *g)
 {
@@ -167,13 +138,18 @@ void libera_grafo (grafo_t *g)
     }
 
     for (i=0; i < g->n_vertices; i++)
-        free(g->matriz_adj[i]);
+    {
+         free(g->matriz_adj[i]);
+         free(g->vertices[i].titulo);
+    }
+
 
     free(g->matriz_adj);
     free(g->vertices);
     free(g);
 }
 
+/*
 
 int cria_adjacencia(grafo_t *g, int u, int v)
 {
@@ -186,12 +162,12 @@ int cria_adjacencia(grafo_t *g, int u, int v)
     if (u > g->n_vertices || v > g->n_vertices )
         return FALSE;
 
-    g->matriz_adj[u][v].adj = TRUE;
+    g->matriz_adj[u][v].dependencia = TRUE;
 
     return TRUE;
 }
 
-/*int rem_adjacencia(grafo_t *g, int u, int v)
+int rem_adjacencia(grafo_t *g, int u, int v)
 {
 
     if (g == NULL)
@@ -202,22 +178,23 @@ int cria_adjacencia(grafo_t *g, int u, int v)
     if (u > g->n_vertices || v > g->n_vertices)
         return FALSE;
 
-    g->matriz_adj[u][v].adj = FALSE;
+    g->matriz_adj[u][v].dependencia = FALSE;
 
     return TRUE;
-}*/
+}
 
-/*int adjacente(grafo_t *g, int u, int v)
+int adjacente(grafo_t *g, int u, int v)
 {
 
     if (u > MAX_VERTICES || v > MAX_VERTICES)
         return FALSE;
               //  printf("\n[%d][%d]\n",u,v);
-    return ((g->matriz_adj[u][v].adj));
+    return ((g->matriz_adj[u][v].dependencia));
 }
-*/
 
-/*void bfs(grafo_t* grafo,int inicial)
+
+
+void bfs(grafo_t* grafo,int inicial)
 {
     inicial--;
     int i;
@@ -294,53 +271,8 @@ void dfs(grafo_t* grafo,int inicial)
 
     libera_pilha(pilha);
 }
-*/
-/*
-void exportar_grafo_dot(const char *filename, grafo_t *grafo) {
-    #ifdef DEBUG
-        printf("\nexporta grafo:");
-    #endif
-    FILE *file;
-    if (filename == NULL || grafo == NULL){
-        fprintf(stderr, "exportar_grafp_dot: ponteiros invalidos\n");
-        exit(EXIT_FAILURE);
-    }
-
-    file = fopen(filename, "w");
-
-    if (file == NULL){
-        perror("exportar_grafp_dot:");
-        exit(EXIT_FAILURE);
-    }
-    for (int i = 0; i < grafo->n_vertices; i++)
-        for (int j = 0; j <grafo->n_vertices; j++)
-            grafo->matriz_adj[i][j].exported=0;
 
 
-    fprintf(file, "graph {\n");
-    for (int i = 0; i < grafo->n_vertices; i++) {
-        for (int j = 0; j <grafo->n_vertices; j++) {
-            if ((!grafo->matriz_adj[i][j].exported &&!grafo->matriz_adj[j][i].exported )&& grafo->matriz_adj[i][j].adj) {
-
-                fprintf(file, "\t%d -- %d [label = %d];\n",
-                    grafo->vertices[i].id,
-                    grafo->vertices[j].id,
-                    grafo->matriz_adj[i][j].peso);
-                grafo->matriz_adj[i][j].exported = TRUE;
-            }
-        }
-    }
-    fprintf(file, "}\n");
-    fclose(file);
-}
-*/
-/*
-void vertice_set_id(grafo_t *g)
-{
-    int i;
-    for (i=0; i < g->n_vertices; i++)
-        g->vertices[i].id = i+1;
-}
 
 void exportar_bfs(const char *filename, grafo_t *grafo){
 
@@ -370,22 +302,76 @@ int i;
     fclose(file);
 }
 
+*/
+
+void vertice_set_id(grafo_t *g)
+{
+    int i;
+    for (i=0; i < g->n_vertices; i++)
+        g->vertices[i].id = i+1;
+}
+
 void imprime_matriz(grafo_t* grafo)
 {
-
     int i,j;
           	printf("     ");
 	for(i=0; i < grafo->n_vertices; i++)
-        printf("%2.d ",i+1);
+        printf("%2d ",i);
         printf("\n");
     for(i=0; i < grafo->n_vertices; i++)
-        printf("----");
+        printf("---");
         printf("\n");
 	for (i=0; i < grafo->n_vertices; i++){
-            printf("%2d | ",i+1);
+            printf("%2d | ",i);
 		for (j=0; j < grafo->n_vertices; j++)
-			printf("%2d ", adjacente(grafo,i,j));
+			printf("%2d ", grafo->matriz_adj[i][j].dependencia);
 			printf("\n");
 	}
 }
-*/
+
+void imprime_vertices(grafo_t *g)
+{
+    int i;
+    for(i=0; i<g->n_vertices;i++)
+        printf("%d\t%30s numero de dependencias diretas: %d\n",i,g->vertices[i].titulo,g->vertices[i].n_dependencias);
+}
+
+void cria_titulo(grafo_t* g,int id,int t){
+    g->vertices[id].titulo=(char *)malloc(sizeof(char) * (t+1));
+
+}
+
+void exportar_grafo_dot(const char *filename, grafo_t *grafo) {
+    #ifdef DEBUG
+        printf("\nexporta grafo:");
+    #endif
+    FILE *file;
+    if (filename == NULL || grafo == NULL){
+        fprintf(stderr, "exportar_grafp_dot: ponteiros invalidos\n");
+        exit(EXIT_FAILURE);
+    }
+
+    file = fopen(filename, "w");
+
+    if (file == NULL){
+        perror("exportar_grafp_dot:");
+        exit(EXIT_FAILURE);
+    }
+    for (int i = 0; i < grafo->n_vertices; i++)
+        for (int j = 0; j <grafo->n_vertices; j++)
+            grafo->matriz_adj[i][j].exported=0;
+
+
+    fprintf(file, "graph {\n");
+    for (int i = 0; i < grafo->n_vertices; i++) {
+        for (int j = 0; j <grafo->n_vertices; j++) {
+            if ((!grafo->matriz_adj[i][j].exported &&!grafo->matriz_adj[j][i].exported )&& grafo->matriz_adj[i][j].dependencia) {
+
+                fprintf(file, "\t%d -> %d ;\n",grafo->vertices[i].id,grafo->vertices[j].id);
+                grafo->matriz_adj[i][j].exported = TRUE;
+            }
+        }
+    }
+    fprintf(file, "}\n");
+    fclose(file);
+}

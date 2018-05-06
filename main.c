@@ -12,15 +12,19 @@
 #include <stdlib.h>
 
 #include "./grafo/grafo.h"
-#define VERTICES 12
+
 
 int main(void) {
 
 	grafo_t *g;
 
-	g = ler_arquivo("montagemcarro.txt");
+	g = Ler_arq();
 
+    imprime_matriz(g);
 
+    imprime_vertices(g);
+
+    exportar_grafo_dot("grafo.dot",g);
 
 	libera_grafo(g);
 

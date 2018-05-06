@@ -1,5 +1,5 @@
-id, titulo, dependencias
-0, estamparia,,
+id, titulo , dependencias
+0, estamparia,
 1, estruturacao, 0
 2, pintura, 1
 3, cabeamento, 2
