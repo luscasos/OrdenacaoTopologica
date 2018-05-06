@@ -19,9 +19,10 @@ typedef struct arestas aresta_t;
 typedef struct grafos grafo_t;
 typedef struct dado dado_t;
 //funções do dado
-dado_t *alocastruct(void);
-void alocaprocesso(dado_t* D,int tamanho);
-void aloca_dep(dado_t **D, int tamanho, int *dep);
+grafo_t* ler_arquivo(char* arquivo);
+vertice_t *cria_vertice(void);
+void alocaprocesso(vertice_t* V,int tamanho);
+void copia_dep(vertice_t **V, int tamanho, int *dep);
 
 
 grafo_t *cria_grafo(int vertices);
