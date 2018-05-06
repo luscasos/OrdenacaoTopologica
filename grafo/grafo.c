@@ -37,6 +37,57 @@ struct grafos
     aresta_t **matriz_adj;	/* Matriz de adjacencia */
 };
 
+struct dado{
+    int etapa;
+    char* processo;
+    int *dependencias;
+};
+
+void ler_arquivo(char* arquivo)
+{
+    char buffer_processo[50];
+    dado_t* D;
+    FILE *fp = fopen(arquivo,"r");
+    int ret, tam, tam_dep;
+    int dep[4];
+    if(fp == NULL){
+        perror("Erro ao abrir o arquivo");
+        exit(EXIT_FAILURE);
+    }
+    while(1)
+    {
+        D=alocastruct();
+        ret = fscanf(fp,"%d, %50[^,],%d", &D->etapa,buffer_processo, dep);
+        if (ret!=3)
+            break;
+        tam = strlen(buffer_processo);
+        tam_dep = sizeof(dep);
+        alocaprocesso(D,tam);
+        copia_dep(&D, tam_dep, dep);
+        strcpy(D->processo,buffer_processo );
+    }
+}
+
+dado_t *alocastruct(void)
+{
+    	dado_t *x = malloc(sizeof(dado_t));
+    	return x;
+}
+
+void alocaprocesso(dado_t* D,int tamanho)
+{
+	D->processo = malloc(tamanho+1);
+}
+
+void aloca_dep(dado_t **D, int tamanho, int *dep)
+{
+    int i;
+    (*D)->dependencias = malloc(tamanho+1);
+    for(i=0;i<tamanho; i++){
+        (*D)->dependencias[i] = dep[i];
+    }
+
+}
 
 grafo_t *cria_grafo(int vertices)
 {
