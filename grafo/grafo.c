@@ -70,7 +70,7 @@ grafo_t* ler_arquivo(char* arquivo)
         strcpy(V->processo,buffer_processo );
     }
     return G;
-}
+}}
 
 vertice_t *cria_vertice(void)
 {

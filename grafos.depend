@@ -97,3 +97,44 @@
 	"../pilha/pilha.h"
 	"grafo.h"
 
+1467931106 source:c:\users\lucas\documents\github\ordenacaotopologica\fila\fila.c
+	<stdlib.h>
+	<stdio.h>
+	"../lista_enc/lista_enc.h"
+	"../lista_enc/no.h"
+	"fila.h"
+
+1468085675 c:\users\lucas\documents\github\ordenacaotopologica\lista_enc\lista_enc.h
+	"no.h"
+
+1467931107 c:\users\lucas\documents\github\ordenacaotopologica\lista_enc\no.h
+
+1467832889 c:\users\lucas\documents\github\ordenacaotopologica\fila\fila.h
+
+1468078414 source:c:\users\lucas\documents\github\ordenacaotopologica\lista_enc\lista_enc.c
+	<stdio.h>
+	<stdlib.h>
+	"lista_enc.h"
+	"no.h"
+
+1524172280 source:c:\users\lucas\documents\github\ordenacaotopologica\lista_enc\no.c
+	<stdio.h>
+	<stdlib.h>
+	"no.h"
+
+1469464566 source:c:\users\lucas\documents\github\ordenacaotopologica\pilha\pilha.c
+	<stdlib.h>
+	<stdio.h>
+	"../lista_enc/lista_enc.h"
+	"../lista_enc/no.h"
+	"pilha.h"
+
+1467834076 c:\users\lucas\documents\github\ordenacaotopologica\pilha\pilha.h
+
+1525573977 source:c:\users\lucas\documents\github\ordenacaotopologica\main.c
+	<stdio.h>
+	<stdlib.h>
+	"./grafo/grafo.h"
+
+1525573977 c:\users\lucas\documents\github\ordenacaotopologica\grafo\grafo.h
+
