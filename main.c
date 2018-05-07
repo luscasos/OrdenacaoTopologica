@@ -24,6 +24,8 @@ int main(void) {
 
     imprime_vertices(g);
 
+    ordenacao_topologica(g);
+
     exportar_grafo_dot("grafo.dot",g);
 
 	libera_grafo(g);

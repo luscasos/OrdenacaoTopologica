@@ -97,3 +97,52 @@
 	"../pilha/pilha.h"
 	"grafo.h"
 
+1525549921 source:c:\users\rafae\onedrive\documents\github\ordenacaotropologica\fila\fila.c
+	<stdlib.h>
+	<stdio.h>
+	"../lista_enc/lista_enc.h"
+	"../lista_enc/no.h"
+	"fila.h"
+
+1525549921 c:\users\rafae\onedrive\documents\github\ordenacaotropologica\lista_enc\lista_enc.h
+	"no.h"
+
+1525549922 c:\users\rafae\onedrive\documents\github\ordenacaotropologica\lista_enc\no.h
+
+1525549921 c:\users\rafae\onedrive\documents\github\ordenacaotropologica\fila\fila.h
+
+1525549921 source:c:\users\rafae\onedrive\documents\github\ordenacaotropologica\lista_enc\lista_enc.c
+	<stdio.h>
+	<stdlib.h>
+	"lista_enc.h"
+	"no.h"
+
+1525549921 source:c:\users\rafae\onedrive\documents\github\ordenacaotropologica\lista_enc\no.c
+	<stdio.h>
+	<stdlib.h>
+	"no.h"
+
+1525549922 source:c:\users\rafae\onedrive\documents\github\ordenacaotropologica\pilha\pilha.c
+	<stdlib.h>
+	<stdio.h>
+	"../lista_enc/lista_enc.h"
+	"../lista_enc/no.h"
+	"pilha.h"
+
+1525549922 c:\users\rafae\onedrive\documents\github\ordenacaotropologica\pilha\pilha.h
+
+1525719944 source:c:\users\rafae\onedrive\documents\github\ordenacaotropologica\main.c
+	<stdio.h>
+	<stdlib.h>
+	"./grafo/grafo.h"
+
+1525719944 c:\users\rafae\onedrive\documents\github\ordenacaotropologica\grafo\grafo.h
+
+1525723589 source:c:\users\rafae\onedrive\documents\github\ordenacaotropologica\grafo\grafo.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"../fila/fila.h"
+	"../pilha/pilha.h"
+	"grafo.h"
+

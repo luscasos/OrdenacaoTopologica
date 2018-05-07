@@ -27,6 +27,7 @@ void exportar_grafo_dot(const char *filename, grafo_t *grafo);
 void imprime_matriz(grafo_t *grafo);
 void cria_titulo(grafo_t* g,int id,int t);
 grafo_t* Ler_arq(void);
+void ordenacao_topologica(grafo_t* g);
 void imprime_vertices(grafo_t *g);
 /*
 int rem_adjacencia(grafo_t *g, int u, int v);

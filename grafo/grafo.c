@@ -125,7 +125,39 @@ grafo_t* Ler_arq(void)
     return g;
 }
 
+void ordenacao_topologica(grafo_t* g)
+{
+    int i, j, id;
+    fila_t* Q = cria_fila();
+    for(i=0;i<g->n_vertices;i++){
+        if(g->vertices[i].n_dependencias==0){
+            enqueue((void*)i, Q);
+            printf("N[%d]=0.\n", i);
+        }
+    }
+    while(!fila_vazia(Q))
+    {
+        i=(int)dequeue(Q);
+        printf("%d\t%30s numero de dependencias diretas: %d\n",i,g->vertices[i].titulo,g->vertices[i].n_dependencias);
+        if(g->vertices[i].n_dependencias==0)//caso a etapa não depender de ninguem, entrará na condição
+        {
+            for(j=0; j<g->n_vertices; j++)
+            {
 
+                if(adjacente(g, j, i)==1)//caso o elemento j dependa do elemento i, entrará na condição
+                {
+                    //printf("%d\n", j);
+                    g->vertices[j].n_dependencias--;//subtraisse um do n de vertices que são antecessores do elemento j
+                    if(g->vertices[j].n_dependencias == 0){
+                        enqueue((void*)j, Q);
+                        //printf("%d\n",j);
+                    }
+                }
+            }
+        }
+    }
+    libera_fila(Q);
+}
 
 void libera_grafo (grafo_t *g)
 {
@@ -182,7 +214,7 @@ int rem_adjacencia(grafo_t *g, int u, int v)
 
     return TRUE;
 }
-
+*/
 int adjacente(grafo_t *g, int u, int v)
 {
 
@@ -191,7 +223,7 @@ int adjacente(grafo_t *g, int u, int v)
               //  printf("\n[%d][%d]\n",u,v);
     return ((g->matriz_adj[u][v].dependencia));
 }
-
+/*
 
 
 void bfs(grafo_t* grafo,int inicial)
