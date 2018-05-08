@@ -127,7 +127,12 @@ grafo_t* Ler_arq(void)
 
 void ordenacao_topologica(grafo_t* g)
 {
-    int i, j, id;
+    int i, j;
+    i = testa_direcional(g);
+    if(i!=0){
+        printf("Erro: grafo direcionado.\n");
+        exit(EXIT_FAILURE);
+    }
     fila_t* Q = cria_fila();
     for(i=0;i<g->n_vertices;i++){
         if(g->vertices[i].n_dependencias==0){
@@ -137,26 +142,36 @@ void ordenacao_topologica(grafo_t* g)
     }
     while(!fila_vazia(Q))
     {
-        i=(int)dequeue(Q);
+        i = (int)dequeue(Q);
         printf("%d\t%30s numero de dependencias diretas: %d\n",i,g->vertices[i].titulo,g->vertices[i].n_dependencias);
         if(g->vertices[i].n_dependencias==0)//caso a etapa não depender de ninguem, entrará na condição
         {
             for(j=0; j<g->n_vertices; j++)
             {
-
                 if(adjacente(g, j, i)==1)//caso o elemento j dependa do elemento i, entrará na condição
                 {
-                    //printf("%d\n", j);
-                    g->vertices[j].n_dependencias--;//subtraisse um do n de vertices que são antecessores do elemento j
+                    g->vertices[j].n_dependencias--;//subtrai-se um do n de vertices que são antecessores do elemento j
                     if(g->vertices[j].n_dependencias == 0){
                         enqueue((void*)j, Q);
-                        //printf("%d\n",j);
                     }
                 }
             }
         }
     }
     libera_fila(Q);
+}
+
+int testa_direcional(grafo_t* g)
+{
+   int i, j;
+   for(i=0; i<g->n_vertices; i++){
+        for(j=0; j<g->n_vertices; j++){
+            if((adjacente(g, j, i)==1) && (adjacente(g, i, j)==1)){
+                return 1;
+            }
+        }
+    }
+    return 0;
 }
 
 void libera_grafo (grafo_t *g)

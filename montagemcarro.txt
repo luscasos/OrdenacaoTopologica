@@ -18,7 +18,7 @@ id, titulo, dependencias
 16, instalar rodas, 14, 15
 17, instalar eixo de transmissao, 13
 18, instalar transmissao, 17
-19, instalar motor, 18
+19, instalar motor, 18,21
 20, instalar sistema de escape, 19, 13
 21, instalar alternador, 19
 22, instalar bomba de oleo, 19
