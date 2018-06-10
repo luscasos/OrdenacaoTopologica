@@ -17,6 +17,7 @@ struct vertices
 {
     int id;
     int n_dependencias;
+    int visitado;
     char *titulo;
 };
 
@@ -129,6 +130,8 @@ void ordenacao_topologica(grafo_t* g)
 {
     int i, j;
     i = testa_direcional(g);
+    for(j=0; j<g->n_vertices; j++)
+        dfs(g,j);
     if(i!=0){
         printf("Erro: grafo direcionado.\n");
         exit(EXIT_FAILURE);
@@ -286,11 +289,10 @@ void bfs(grafo_t* grafo,int inicial)
 	libera_fila(fila);
 
 }
-
+*/
 void dfs(grafo_t* grafo,int inicial)
 {
-    inicial--;
-    int i;
+    int i,init=inicial;
     pilha_t*pilha=cria_pilha();
 
     for (i=0; i<grafo->n_vertices; i++)
@@ -298,28 +300,33 @@ void dfs(grafo_t* grafo,int inicial)
         grafo->vertices[i].visitado = 0;
     }
     push((void*)inicial,pilha);
-   // printf("push %d\n",inicial);
+    //printf("push init %d\n",inicial);
     while(!pilha_vazia(pilha))
     {
         inicial=(int)pop(pilha);
         //printf("pop %d\n",inicial);
 
-            if (grafo->vertices[inicial].visitado == 0)
-            {
-                   grafo->vertices[inicial].visitado = 1;
-                   printf("Visitado: %d\n",inicial+1);
-                   for (i=0;i<=grafo->n_vertices;i++){
-                        if (grafo->matriz_adj[inicial][i].adj)
-                            push((void*)i,pilha);
-                          //  printf("push %d\n",i);
-                   }
-            }
-        }
 
+            grafo->vertices[inicial].visitado = 1;
+
+            for (i=0; i<grafo->n_vertices; i++)
+            {
+                if (adjacente(grafo,i, inicial))
+                {
+                    if (grafo->vertices[i].visitado == 0)
+                    push((void*)i,pilha);
+
+                    if (i==init)
+                        printf("grafo direcionado %d\n",i);
+                }
+        }
+    }
+    printf("init %d\n",init);
     libera_pilha(pilha);
 }
 
 
+/*
 
 void exportar_bfs(const char *filename, grafo_t *grafo){
 
