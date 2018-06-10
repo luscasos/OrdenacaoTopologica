@@ -146,3 +146,52 @@
 	"../pilha/pilha.h"
 	"grafo.h"
 
+1528596052 source:c:\users\luc_h\onedrive\documentos\github\ordenacaotopologica\fila\fila.c
+	<stdlib.h>
+	<stdio.h>
+	"../lista_enc/lista_enc.h"
+	"../lista_enc/no.h"
+	"fila.h"
+
+1528596052 c:\users\luc_h\onedrive\documentos\github\ordenacaotopologica\lista_enc\lista_enc.h
+	"no.h"
+
+1528596052 c:\users\luc_h\onedrive\documentos\github\ordenacaotopologica\lista_enc\no.h
+
+1528596052 c:\users\luc_h\onedrive\documentos\github\ordenacaotopologica\fila\fila.h
+
+1528596457 source:c:\users\luc_h\onedrive\documentos\github\ordenacaotopologica\grafo\grafo.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"../fila/fila.h"
+	"../pilha/pilha.h"
+	"grafo.h"
+
+1528596052 c:\users\luc_h\onedrive\documentos\github\ordenacaotopologica\pilha\pilha.h
+
+1528596457 c:\users\luc_h\onedrive\documentos\github\ordenacaotopologica\grafo\grafo.h
+
+1528596052 source:c:\users\luc_h\onedrive\documentos\github\ordenacaotopologica\lista_enc\lista_enc.c
+	<stdio.h>
+	<stdlib.h>
+	"lista_enc.h"
+	"no.h"
+
+1528596052 source:c:\users\luc_h\onedrive\documentos\github\ordenacaotopologica\lista_enc\no.c
+	<stdio.h>
+	<stdlib.h>
+	"no.h"
+
+1528596052 source:c:\users\luc_h\onedrive\documentos\github\ordenacaotopologica\main.c
+	<stdio.h>
+	<stdlib.h>
+	"./grafo/grafo.h"
+
+1528596052 source:c:\users\luc_h\onedrive\documentos\github\ordenacaotopologica\pilha\pilha.c
+	<stdlib.h>
+	<stdio.h>
+	"../lista_enc/lista_enc.h"
+	"../lista_enc/no.h"
+	"pilha.h"
+

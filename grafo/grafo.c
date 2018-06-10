@@ -116,10 +116,11 @@ grafo_t* Ler_arq(void)
                 //printf("%d\t",dep);
                 g->matriz_adj[id][dep]=aresta;      // cria dependencia entre id e dep
                 n++;
+                g->vertices[id].n_dependencias=n;
             }
             fscanf(fp,"%*[^\n]");
             //printf("\n");
-        g->vertices[id].n_dependencias=n;
+
         g->vertices[id].id=id;
     }
     fclose(fp);
@@ -128,14 +129,33 @@ grafo_t* Ler_arq(void)
 
 void ordenacao_topologica(grafo_t* g)
 {
-    int i, j;
-    i = testa_direcional(g);
-    for(j=0; j<g->n_vertices; j++)
-        dfs(g,j);
-    if(i!=0){
-        printf("Erro: grafo direcionado.\n");
+    int i,j,k=0;
+
+    FILE *file;
+    if (g == NULL){
+        fprintf(stderr, "ordenacao_topologica: ponteiros invalidos\n");
         exit(EXIT_FAILURE);
     }
+
+    file = fopen("Lista de tarefas.dot", "w");
+
+        if (file == NULL){
+        perror("exportar_grafp_dot:");
+        exit(EXIT_FAILURE);
+    }
+
+    fprintf(file,"Lista de etapas a serem realizadas para montagem de um automovel:\n");
+
+    for(j=0; j<g->n_vertices; j++)
+    {
+        i = dfs(g,j);
+        if(i!=0)
+        {
+            printf("Erro: grafo direcionado.\n");
+            exit(EXIT_FAILURE);
+        }
+    }
+
     fila_t* Q = cria_fila();
     for(i=0;i<g->n_vertices;i++){
         if(g->vertices[i].n_dependencias==0){
@@ -143,10 +163,11 @@ void ordenacao_topologica(grafo_t* g)
             printf("N[%d]=0.\n", i);
         }
     }
+
     while(!fila_vazia(Q))
     {
         i = (int)dequeue(Q);
-        printf("%d\t%30s numero de dependencias diretas: %d\n",i,g->vertices[i].titulo,g->vertices[i].n_dependencias);
+        fprintf(file,"%dº %s, ID:%d\n",k,g->vertices[i].titulo,g->vertices[i].id);
         if(g->vertices[i].n_dependencias==0)//caso a etapa não depender de ninguem, entrará na condição
         {
             for(j=0; j<g->n_vertices; j++)
@@ -160,8 +181,10 @@ void ordenacao_topologica(grafo_t* g)
                 }
             }
         }
+    k++;
     }
     libera_fila(Q);
+
 }
 
 int testa_direcional(grafo_t* g)
@@ -290,9 +313,9 @@ void bfs(grafo_t* grafo,int inicial)
 
 }
 */
-void dfs(grafo_t* grafo,int inicial)
+int dfs(grafo_t* grafo,int inicial)
 {
-    int i,init=inicial;
+    int i,init=inicial,ciclo=0;
     pilha_t*pilha=cria_pilha();
 
     for (i=0; i<grafo->n_vertices; i++)
@@ -316,13 +339,17 @@ void dfs(grafo_t* grafo,int inicial)
                     if (grafo->vertices[i].visitado == 0)
                     push((void*)i,pilha);
 
-                    if (i==init)
+                    if (i==init){
                         printf("grafo direcionado %d\n",i);
+                        ciclo = 1;
+                    }
+
                 }
         }
     }
-    printf("init %d\n",init);
+    //printf("init %d\n",init);
     libera_pilha(pilha);
+    return ciclo;
 }
 
 
@@ -416,12 +443,12 @@ void exportar_grafo_dot(const char *filename, grafo_t *grafo) {
             grafo->matriz_adj[i][j].exported=0;
 
 
-    fprintf(file, "graph {\n");
+    fprintf(file, "digraph {\n");
     for (int i = 0; i < grafo->n_vertices; i++) {
         for (int j = 0; j <grafo->n_vertices; j++) {
             if ((!grafo->matriz_adj[i][j].exported &&!grafo->matriz_adj[j][i].exported )&& grafo->matriz_adj[i][j].dependencia) {
 
-                fprintf(file, "\t%d -> %d ;\n",grafo->vertices[i].id,grafo->vertices[j].id);
+                fprintf(file, "\t\"%s\"-> \"%s\" ;\n",grafo->vertices[i].titulo,grafo->vertices[j].titulo);
                 grafo->matriz_adj[i][j].exported = TRUE;
             }
         }

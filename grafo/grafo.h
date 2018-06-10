@@ -31,7 +31,7 @@ void ordenacao_topologica(grafo_t* g);
 int testa_direcional(grafo_t* g);
 void imprime_vertices(grafo_t *g);
 int adjacente(grafo_t *g, int u, int v);
-void dfs(grafo_t* grafo,int inicial);
+int dfs(grafo_t* grafo,int inicial);
 /*
 int rem_adjacencia(grafo_t *g, int u, int v);
 
